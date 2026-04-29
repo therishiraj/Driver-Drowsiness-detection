@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Drowsiness Detection — Intelligent Agent</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ── HEADER ─────────────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🧠</span>
+        <div>
+          <h1>DrowsyGuard AI</h1>
+          <p>Intelligent Driver Safety Agent</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-green" id="systemBadge">● SYSTEM READY</span>
+        <span class="badge badge-blue">CNN + EAR Fusion</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── ALERT BANNER ───────────────────────────────────────────────── -->
+  <div class="alert-banner" id="alertBanner" style="display:none;">
+    <div class="alert-icon" id="alertIcon">⚠️</div>
+    <div>
+      <strong id="alertTitle">DROWSINESS DETECTED</strong>
+      <span id="alertMsg">Please take a break immediately.</span>
+    </div>
+    <button class="alert-dismiss" onclick="dismissAlert()">✕</button>
+  </div>
+
+  <!-- ── MAIN LAYOUT ────────────────────────────────────────────────── -->
+  <main class="main-grid">
+
+    <!-- ── LEFT: VIDEO FEED ──────────────────────────────────────────── -->
+    <section class="video-panel">
+      <div class="panel-header">
+        <span class="panel-title">📷 Live Camera Feed</span>
+        <div class="live-dot" id="liveDot"></div>
+      </div>
+      <div class="video-wrapper">
+        <img id="videoFeed" src="/video_feed" alt="Camera feed"
+             onerror="handleVideoError()" />
+        <div class="video-overlay" id="stateOverlay">
+          <span id="overlayState" class="overlay-state">INITIALISING…</span>
+        </div>
+      </div>
+      <div class="video-controls">
+        <button class="btn btn-secondary" onclick="resetAgent()">🔄 Reset Agent</button>
+        <button class="btn btn-secondary" onclick="toggleAudio()" id="audioBtn">🔔 Audio ON</button>
+        <span class="inference-time" id="inferenceTime">Inference: —</span>
+      </div>
+    </section>
+
+    <!-- ── RIGHT: METRICS ────────────────────────────────────────────── -->
+    <aside class="metrics-panel">
+
+      <!-- State Card -->
+      <div class="state-card" id="stateCard">
+        <div class="state-label">Agent State</div>
+        <div class="state-value" id="stateValue">—</div>
+        <div class="state-sub" id="stateSub">Waiting for face…</div>
+      </div>
+
+      <!-- Gauge: EAR -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>Eye Aspect Ratio (EAR)</span>
+          <span class="metric-value" id="earValue">—</span>
+        </div>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="earBar" style="width:0%"></div>
+        </div>
+        <div class="metric-note">Threshold: 0.25 · Below = closed</div>
+      </div>
+
+      <!-- Gauge: Consecutive Frames -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>Consecutive Closed Frames</span>
+          <span class="metric-value" id="consValue">0 / 20</span>
+        </div>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="consBar" style="width:0%; background:#f59e0b"></div>
+        </div>
+        <div class="metric-note">20 frames → DROWSY alert · 48 → SLEEPING</div>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num" id="statBlinks">0</div>
+          <div class="stat-label">Blinks</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statFPS">—</div>
+          <div class="stat-label">FPS</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statFrames">0</div>
+          <div class="stat-label">Frames</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statSession">0s</div>
+          <div class="stat-label">Session</div>
+        </div>
+      </div>
+
+      <!-- Event log -->
+      <div class="log-card">
+        <div class="log-header">📋 Agent Event Log</div>
+        <ul class="log-list" id="logList">
+          <li class="log-item log-info">System initialised — agent ready.</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ── AGENT ARCHITECTURE DIAGRAM ────────────────────────────────── -->
+  <section class="arch-section">
+    <h2 class="arch-title">Intelligent Agent Architecture</h2>
+    <div class="arch-flow">
+      <div class="arch-block arch-perception">
+        <div class="arch-icon">👁</div>
+        <div class="arch-block-title">PERCEPTION</div>
+        <ul>
+          <li>Haar/dlib face detection</li>
+          <li>68-pt landmark estimation</li>
+          <li>Eye region extraction</li>
+          <li>CLAHE lighting normalisation</li>
+        </ul>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block arch-reason">
+        <div class="arch-icon">🧠</div>
+        <div class="arch-block-title">REASONING</div>
+        <ul>
+          <li>EAR computation</li>
+          <li>CNN eye-state classification</li>
+          <li>Sensor fusion (EAR + CNN)</li>
+          <li>Consecutive-frame counter</li>
+        </ul>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block arch-action">
+        <div class="arch-icon">⚡</div>
+        <div class="arch-block-title">ACTION</div>
+        <ul>
+          <li>Audio alert trigger</li>
+          <li>On-screen warning banner</li>
+          <li>Severity scaling</li>
+          <li>&lt;200ms notification latency</li>
+        </ul>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block arch-feedback">
+        <div class="arch-icon">🔁</div>
+        <div class="arch-block-title">FEEDBACK</div>
+        <ul>
+          <li>Rolling EAR history (90 frames)</li>
+          <li>Blink rate tracking</li>
+          <li>Adaptive threshold tuning</li>
+          <li>Session analytics</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    Built for M.Tech Intelligent Agents · Python · OpenCV · Flask · CNN · EAR Fusion
+  </footer>
+
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

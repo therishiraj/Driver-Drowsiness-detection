@@ -1,0 +1,33 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.env
+
+# Model files (large — store via Git LFS or download separately)
+model/*.h5
+model/*.pkl
+model/*.dat
+model/*.caffemodel
+model/*.prototxt
+
+# Training data
+data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
