@@ -144,10 +144,6 @@ Webcam access requires HTTPS. Render provides free HTTPS.
 python app.py
 # Access on LAN: http://YOUR_IP:5000
 ```
-
-### Option C — Client-Side Only (Vercel/Netlify compatible)
-See `DEPLOYMENT.md` for the pure JavaScript version (no backend server needed).
-
 ---
 
 ## 🎯 Results
