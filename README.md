@@ -1,4 +1,4 @@
-# 🧠 Real-Time Driver Drowsiness Detection System
+#  Real-Time Driver Drowsiness Detection System
 ### Intelligent Agent — M.Tech Project
 
 > **Python · OpenCV · Flask · CNN · Eye Aspect Ratio Fusion**  
@@ -6,7 +6,7 @@
 
 ---
 
-## 🏗️ Architecture — Sense-Think-Act Loop
+##  Architecture — Sense-Think-Act Loop
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
@@ -30,7 +30,7 @@ This is a classic **Intelligent Agent** architecture:
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone & Install
 
@@ -54,7 +54,7 @@ python app.py
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 drowsiness-detection/
@@ -85,7 +85,7 @@ drowsiness-detection/
 
 ---
 
-## 🧠 CNN Model
+##  CNN Model
 
 ### Architecture
 ```
@@ -115,7 +115,7 @@ python -c "from utils.cnn_classifier import train_model; train_model('data/eyes'
 
 ---
 
-## ⚙️ Key Parameters
+## Key Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -126,7 +126,7 @@ python -c "from utils.cnn_classifier import train_model; train_model('data/eyes'
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
 ### Option A — Render.com (Recommended for webcam apps)
 Webcam access requires HTTPS. Render provides free HTTPS.
@@ -157,7 +157,7 @@ python app.py
 
 ---
 
-## 📚 References
+##  References
 
 - Soukupová & Čech (2016) — *Real-Time Eye Blink Detection using Facial Landmarks*
 - MRL Eye Dataset — http://mrl.cs.vsb.cz/eyedataset
@@ -166,6 +166,6 @@ python app.py
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — free for academic and personal use.
